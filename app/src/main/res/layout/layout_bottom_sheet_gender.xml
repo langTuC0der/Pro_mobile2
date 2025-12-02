@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_input"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn giới tính"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/tvMale"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Nam"
+        android:gravity="center"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tvFemale"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Nữ"
+        android:gravity="center"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tvOther"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Khác"
+        android:gravity="center"
+        android:background="@drawable/bg_input"/>
+</LinearLayout>

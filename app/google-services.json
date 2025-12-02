@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "506264749854",
+    "project_id": "appgiaohang-17232",
+    "storage_bucket": "appgiaohang-17232.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506264749854:android:48515fe59a3bec7249ab0f",
+        "android_client_info": {
+          "package_name": "com.example.app_giaohang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvJ1uHGOAmM5cC8gOfk1IyhFn5SdfwwHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

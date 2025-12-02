@@ -1,0 +1,59 @@
+plugins {
+    alias(libs.plugins.android.application)
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.example.app_giaohang'
+    compileSdk 34 // Dùng bản ổn định 34
+
+    defaultConfig {
+        applicationId "com.example.app_giaohang"
+        minSdk 24 // GIỮ NGUYÊN CÁI NÀY
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        // Bật tính năng desugaring
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // --- GIAO DIỆN (Đã chọn version ổn định, không bị lỗi version 36) ---
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Hai thư viện này là nguyên nhân gây lỗi, mình đã chỉnh về bản ổn định:
+    implementation 'androidx.activity:activity:1.9.1'
+    implementation 'androidx.core:core-ktx:1.13.1'
+
+    // --- FIREBASE (Giữ nguyên để chạy Login) ---
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation 'com.google.firebase:firebase-firestore'
+// THÊM DÒNG NÀY (MapLibre - Miễn phí, ổn định):
+    // THÊM DÒNG NÀY (OSM - Dễ dùng, miễn phí):
+    implementation 'org.osmdroid:osmdroid-android:6.1.18'
+    // Thêm thư viện này để hỗ trợ Java 8 tốt hơn cho MapLibre
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+}
