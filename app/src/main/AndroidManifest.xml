@@ -48,6 +48,11 @@
         <activity
             android:name=".Message.MessageChatDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".Message.MessageCallActiveActivity"
+            android:exported="false"
+            />
+
 
         <activity
 

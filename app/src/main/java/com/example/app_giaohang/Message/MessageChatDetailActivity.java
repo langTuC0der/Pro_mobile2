@@ -138,15 +138,13 @@ public class MessageChatDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Nút Gọi điện: Lưu lịch sử cuộc gọi
         if (btn_voice_call != null) {
             btn_voice_call.setOnClickListener(v -> {
-                // Thêm vào danh sách lịch sử cuộc gọi trong Database
                 AppDatabase.CallHistoryItem newItem = new AppDatabase.CallHistoryItem(currentChatName, "Vừa xong");
                 db.callHistoryDao().insertCall(newItem);
+                Intent intent = new Intent(MessageChatDetailActivity.this, MessageCallActiveActivity.class);
 
-                Intent intent = new Intent(MessageChatDetailActivity.this, MessageCallDetailActivity.class);
-                intent.putExtra("caller_name", currentChatName);
+                intent.putExtra("CALLER_NAME", currentChatName);
                 startActivity(intent);
             });
         }

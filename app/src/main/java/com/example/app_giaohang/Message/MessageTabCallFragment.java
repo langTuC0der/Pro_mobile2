@@ -46,68 +46,61 @@ public class MessageTabCallFragment extends Fragment {
         vqd_tab_tinnhan = view.findViewById(R.id.vqd_tab_tinnhan);
     }
 
-    // --- HÀM MỚI: LOAD DANH SÁCH TỪ DB ---
     private void loadCallHistory() {
         if (getContext() == null) return;
 
         AppDatabase db = AppDatabase.getDatabase(getContext());
-        // Lấy toàn bộ danh sách
         List<AppDatabase.CallHistoryItem> list = db.callHistoryDao().getAllCalls();
 
         if (list.isEmpty()) {
-            // Không có dữ liệu -> Hiện Empty, Ẩn List
             vqd_layout_empty.setVisibility(View.VISIBLE);
             vqd_scroll_history.setVisibility(View.GONE);
         } else {
-            // Có dữ liệu -> Ẩn Empty, Hiện List
             vqd_layout_empty.setVisibility(View.GONE);
             vqd_scroll_history.setVisibility(View.VISIBLE);
-
-            // Xóa hết view cũ để tránh bị nhân đôi khi load lại
             vqd_list_container.removeAllViews();
 
-            // Vòng lặp để tạo giao diện cho từng dòng
             for (AppDatabase.CallHistoryItem item : list) {
-                // 1. Inflate giao diện 1 dòng (từ file vqd_item_call_history.xml)
                 View itemView = LayoutInflater.from(getContext()).inflate(R.layout.vqd_item_call_history, vqd_list_container, false);
 
-                // 2. Ánh xạ các view trong dòng đó
                 TextView tvName = itemView.findViewById(R.id.tv_history_name);
                 TextView tvStatus = itemView.findViewById(R.id.tv_history_status);
-                ImageView btnCall = itemView.findViewById(R.id.btn_call_again);
-                View clickArea = itemView; // Toàn bộ dòng
 
-                // 3. Gán dữ liệu
+                ImageView btnCall = itemView.findViewById(R.id.btn_call_again);
+
+                View clickArea = itemView;
+
                 tvName.setText(item.callerName);
                 tvStatus.setText("Cuộc gọi đi • " + item.time);
 
-                // 4. Bắt sự kiện click cho dòng đó
                 clickArea.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), MessageCallDetailActivity.class);
                     intent.putExtra("caller_name", item.callerName);
                     startActivity(intent);
                 });
+                btnCall.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), MessageCallActiveActivity.class);
 
-                // 5. Thêm dòng đó vào container
+                    intent.putExtra("CALLER_NAME", item.callerName);
+
+                    startActivity(intent);
+                });
+
                 vqd_list_container.addView(itemView);
-
-                // (Tùy chọn) Thêm 1 đường kẻ mờ ngăn cách
-                // View divider = new View(getContext());
-                // divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-                // divider.setBackgroundColor(0xFFEEEEEE); // Màu xám nhạt
-                // vqd_list_container.addView(divider);
             }
         }
     }
 
+
     private void setupEvents() {
         if (vqd_tab_tinnhan != null) {
+            // Code MỚI (Đúng)
             vqd_tab_tinnhan.setOnClickListener(v -> {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.vqd_fragment_container, new MessageTabChatFragment())
-                        .commit();
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             });
+
         }
     }
 }
