@@ -56,4 +56,28 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.18'
     // Thêm thư viện này để hỗ trợ Java 8 tốt hơn cho MapLibre
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+
+
+    //Dung Dev
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:3.5.2'
+
+
+    // Gemini AI SDK - THÊM MỚI
+    implementation 'com.google.ai.client.generativeai:generativeai:0.9.0'
+    // Các thư viện hỗ trợ
+    // Guava (Google Core Libraries)
+    implementation 'com.google.guava:guava:32.1.3-android'
+
+    // Kotlin Coroutines (Xử lý bất đồng bộ)
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+
+    // CardView (Giao diện thẻ)
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //SQL
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }

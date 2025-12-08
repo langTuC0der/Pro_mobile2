@@ -3,6 +3,9 @@ package com.example.app_giaohang;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.example.app_giaohang.Message.MessageTabChatFragment;
+import com.example.app_giaohang.Wallet.vqd_WalletHomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.app_giaohang.Users.Order; // Import class Order
 
@@ -31,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_orders) {
                 selectedFragment = new OrderFragment();
             } else if (itemId == R.id.nav_wallet) {
-                selectedFragment = new WalletFragment();
+                selectedFragment = new vqd_WalletHomeFragment();
             } else if (itemId == R.id.nav_chat) {
-                selectedFragment = new ChatFragment();
+                selectedFragment = new MessageTabChatFragment();
             } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
             }

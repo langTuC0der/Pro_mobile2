@@ -32,6 +32,30 @@
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
+            android:name=".Message.MessageCallDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Message.MessageTabCallFragment"
+            android:exported="false" />
+
+        <activity
+            android:name=".Wallet.vqd_WalletNapTienActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Wallet.vqd_WalletRegisterFundActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Message.MessageChatDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Message.MessageCallActiveActivity"
+            android:exported="false"
+            />
+
+
+        <activity
+
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.App_Giaohang.Splash">

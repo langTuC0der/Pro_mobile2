@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    android:background="@drawable/vqd_square_white_bg">
+
+    <!-- 1. Icon dấu tích xanh -->
+<ImageView
+android:id="@+id/img_success_icon"
+android:layout_width="72dp"
+android:layout_height="72dp"
+android:src="@drawable/ic_vqd_check_circle_green" />
+<TextView
+android:id="@+id/tv_success_message"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Giao dịch thành công"
+android:textColor="@android:color/black"
+android:textSize="18sp"
+android:textStyle="bold"
+android:layout_marginTop="16dp" />
+
+    <!-- 3. Nút "Trang chủ" -->
+<androidx.appcompat.widget.AppCompatButton
+android:id="@+id/btn_go_home"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="24dp"
+    android:background="@drawable/vqd_button_green_bg"
+
+    android:text="Trang chủ"
+    android:textColor="@android:color/white"
+    android:textSize="16sp" />
+
+    </LinearLayout>
+
