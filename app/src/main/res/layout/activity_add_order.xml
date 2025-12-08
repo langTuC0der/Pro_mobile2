@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tạo Đơn Hàng Mới"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#00A651"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/edtOrderName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên hàng hóa (VD: Tài liệu, Cơm hộp...)"
+        android:padding="15dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAddressFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ nơi gửi"
+        android:padding="15dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAddressTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ nơi nhận"
+        android:padding="15dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tiền (VNĐ)"
+        android:inputType="number"
+        android:padding="15dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnSubmitOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng Đơn Hàng"
+        android:backgroundTint="#00A651"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
+
+</LinearLayout>

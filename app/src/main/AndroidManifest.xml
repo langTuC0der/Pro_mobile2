@@ -52,6 +52,15 @@
             android:name=".Message.MessageCallActiveActivity"
             android:exported="false"
             />
+        <activity
+            android:name=".DriverInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddOrderActivity"
+            android:exported="false" />
 
 
         <activity
