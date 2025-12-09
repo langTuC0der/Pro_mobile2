@@ -27,18 +27,11 @@
             android:name=".UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".OtpActivity"
-            android:exported="false" />
-        <activity
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".Message.MessageCallDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".Message.MessageTabCallFragment"
-            android:exported="false" />
-
         <activity
             android:name=".Wallet.vqd_WalletNapTienActivity"
             android:exported="false" />
@@ -71,6 +64,9 @@
             android:name=".AdminAddPriceActivity"
             android:exported="false" />
         <activity android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MapActivity"
             android:exported="false" />
 
 
