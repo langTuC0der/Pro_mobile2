@@ -1,8 +1,8 @@
 package com.example.app_giaohang.Message;
 
-
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Intent;import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +12,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.example.app_giaohang.R;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -24,6 +23,8 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MessageChatDetailActivity extends AppCompatActivity {
 
@@ -40,15 +41,15 @@ public class MessageChatDetailActivity extends AppCompatActivity {
     private GenerativeModelFutures model;
     private AppDatabase db;
 
-    // [QUAN TRỌNG] Biến lưu tên người đang chat (VD: "AI Bot Gemini" hoặc "Lê Văn A")
+    // Executor để chạy tác vụ nền (Database) tránh làm lag UI
+    private final ExecutorService dbExecutor = Executors.newSingleThreadExecutor();
+
     private String currentChatName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Sửa lỗi tương thích Activity (như bạn từng gặp)
-        ((AppCompatActivity) this).setContentView(R.layout.vqd_message_activity_chat_detail);
+        setContentView(R.layout.vqd_message_activity_chat_detail);
 
         db = AppDatabase.getDatabase(this);
 
@@ -58,7 +59,7 @@ public class MessageChatDetailActivity extends AppCompatActivity {
         initViews();
         setupEvents();
 
-        // Load lịch sử chat THEO TÊN NGƯỜI
+        // Load lịch sử chat (Đã tối ưu chạy luồng phụ)
         loadChatHistory();
     }
 
@@ -71,42 +72,44 @@ public class MessageChatDetailActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         btn_voice_call = findViewById(R.id.btn_voice_call);
 
-        // [QUAN TRỌNG] Lấy tên người chat từ Intent
         currentChatName = getIntent().getStringExtra("chat_name");
 
-        // Nếu không có tên (lỗi) thì mặc định là Gemini
         if (currentChatName == null || currentChatName.isEmpty()) {
             currentChatName = "AI Bot Gemini";
         }
 
-        // Hiển thị tên lên thanh tiêu đề
         chat_title.setText(currentChatName);
     }
 
     private void loadChatHistory() {
-        // [SỬA ĐỔI] Thay vì getAllMessages(), giờ chỉ lấy tin nhắn của currentChatName
-        List<ChatMessage> history = db.chatDao().getMessagesByChatId(currentChatName);
+        // [TỐI ƯU] Chuyển việc đọc DB sang luồng phụ (dbExecutor)
+        dbExecutor.execute(() -> {
+            List<ChatMessage> history = db.chatDao().getMessagesByChatId(currentChatName);
 
-        if (history.isEmpty()) {
-            // Logic tạo lời chào riêng biệt
-            String welcome;
-            if (currentChatName.equals("AI Bot Gemini")) {
-                welcome = "Xin chào! Tôi là trợ lý AI Gemini. Tôi có thể giúp gì cho bạn? 😊";
-            } else {
-                welcome = "Tôi đang có mặt tại điểm đón";
-            }
+            // Cập nhật UI trên Main Thread
+            runOnUiThread(() -> {
+                if (history.isEmpty()) {
+                    String welcome;
+                    if (currentChatName.equals("AI Bot Gemini")) {
+                        welcome = "Xin chào! Tôi là trợ lý AI Gemini. Tôi có thể giúp gì cho bạn? 😊";
+                    } else {
+                        welcome = "Tôi đang có mặt tại điểm đón";
+                    }
 
-            addBotMessageUI(welcome);
-            saveMessageToDB(welcome, false);
-        } else {
-            for (ChatMessage msg : history) {
-                if (msg.isUser) {
-                    addUserMessageUI(msg.message);
+                    addBotMessageUI(welcome);
+                    saveMessageToDB(welcome, false);
                 } else {
-                    addBotMessageUI(msg.message);
+                    for (ChatMessage msg : history) {
+                        if (msg.isUser) {
+                            addUserMessageUI(msg.message);
+                        } else {
+                            addBotMessageUI(msg.message);
+                        }
+                    }
+                    scrollToBottom();
                 }
-            }
-        }
+            });
+        });
     }
 
     private void setupEvents() {
@@ -116,21 +119,19 @@ public class MessageChatDetailActivity extends AppCompatActivity {
             String userMessage = editTextMessage.getText().toString().trim();
             if (userMessage.isEmpty()) return;
 
-            // 1. Hiện tin nhắn User
+            // 1. Hiện tin nhắn User ngay lập tức
             addUserMessageUI(userMessage);
 
-            // 2. Lưu tin nhắn kèm theo TÊN NGƯỜI CHAT (currentChatName)
+            // 2. Lưu tin nhắn vào DB (Chạy ngầm)
             saveMessageToDB(userMessage, true);
 
             editTextMessage.setText("");
 
-            // 3. Nếu đang chat với Gemini thì mới gọi AI trả lời
+            // 3. Xử lý phản hồi
             if (currentChatName.equals("AI Bot Gemini")) {
                 sendMessageToGemini(userMessage);
             } else {
-                // Nếu chat với người thường (Lê Văn A), có thể giả lập trả lời tự động hoặc không làm gì
-                // Ví dụ giả lập trả lời sau 1 giây:
-                new android.os.Handler().postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     String reply = "Tôi đang có mặt tải điểm đón!";
                     addBotMessageUI(reply);
                     saveMessageToDB(reply, false);
@@ -140,10 +141,13 @@ public class MessageChatDetailActivity extends AppCompatActivity {
 
         if (btn_voice_call != null) {
             btn_voice_call.setOnClickListener(v -> {
-                AppDatabase.CallHistoryItem newItem = new AppDatabase.CallHistoryItem(currentChatName, "Vừa xong");
-                db.callHistoryDao().insertCall(newItem);
-                Intent intent = new Intent(MessageChatDetailActivity.this, MessageCallActiveActivity.class);
+                // Lưu lịch sử cuộc gọi (Chạy ngầm)
+                dbExecutor.execute(() -> {
+                    AppDatabase.CallHistoryItem newItem = new AppDatabase.CallHistoryItem(currentChatName, "Vừa xong");
+                    db.callHistoryDao().insertCall(newItem);
+                });
 
+                Intent intent = new Intent(MessageChatDetailActivity.this, MessageCallActiveActivity.class);
                 intent.putExtra("CALLER_NAME", currentChatName);
                 startActivity(intent);
             });
@@ -168,16 +172,17 @@ public class MessageChatDetailActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 t.printStackTrace();
                 runOnUiThread(() -> {
-                    addBotMessageUI("Lỗi kết nối AI.");
+                    addBotMessageUI("Lỗi kết nối AI: " + t.getMessage());
                 });
             }
         }, mainExecutor);
     }
 
-    // [SỬA ĐỔI] Hàm lưu tin nhắn giờ phải nhận thêm currentChatName
+    // [TỐI ƯU] Hàm lưu tin nhắn chạy trên luồng phụ
     private void saveMessageToDB(String message, boolean isUser) {
-        // Tạo ChatMessage với 3 tham số: nội dung, là User?, ID người chat
-        db.chatDao().insertMessage(new ChatMessage(message, isUser, currentChatName));
+        dbExecutor.execute(() -> {
+            db.chatDao().insertMessage(new ChatMessage(message, isUser, currentChatName));
+        });
     }
 
     private void addUserMessageUI(String message) {
@@ -201,10 +206,19 @@ public class MessageChatDetailActivity extends AppCompatActivity {
     }
 
     private java.util.concurrent.Executor mainExecutor = new java.util.concurrent.Executor() {
-        private android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
+        private Handler handler = new Handler(Looper.getMainLooper());
         @Override
         public void execute(Runnable command) {
             handler.post(command);
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Giải phóng Executor khi thoát màn hình để tránh rò rỉ bộ nhớ
+        if (dbExecutor != null && !dbExecutor.isShutdown()) {
+            dbExecutor.shutdown();
+        }
+    }
 }

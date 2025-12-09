@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input"
-            android:hint="Nhập họ và tên"
+            android:hint="Họ tên"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
@@ -126,7 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input"
-            android:hint="Nhập email"
+            android:hint="Email cá nhân"
             android:inputType="textEmailAddress"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>

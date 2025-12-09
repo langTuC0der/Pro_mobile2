@@ -3,26 +3,20 @@ package com.example.app_giaohang;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
-import com.example.app_giaohang.Message.MessageTabChatFragment;
-import com.example.app_giaohang.Wallet.vqd_WalletHomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.example.app_giaohang.Users.Order; // Import class Order
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // Layout này chứa FrameLayout và BottomNavigationView
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Mặc định hiện HomeFragment
+        // Mặc định hiển thị HomeFragment khi mở app
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment())
-                    .commit();
+            loadFragment(new HomeFragment());
         }
 
         bottomNav.setOnItemSelectedListener(item -> {
@@ -32,39 +26,35 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (itemId == R.id.nav_orders) {
-                selectedFragment = new OrderFragment();
+                // Fragment cho đơn hàng, ví dụ:
+                selectedFragment = new OrderFragment(); // Giả sử bạn đã có OrderFragment
             } else if (itemId == R.id.nav_wallet) {
-                selectedFragment = new vqd_WalletHomeFragment();
+                // Mở WalletFragment khi nhấn "Ví Taker"
+                selectedFragment = new WalletFragment();
             } else if (itemId == R.id.nav_chat) {
-                selectedFragment = new MessageTabChatFragment();
+                selectedFragment = new ChatFragment(); // Giả sử bạn đã có ChatFragment
             } else if (itemId == R.id.nav_profile) {
-                selectedFragment = new ProfileFragment();
+                // Fragment cho hồ sơ, ví dụ:
+                selectedFragment = new ProfileFragment(); // Giả sử bạn đã có ProfileFragment
             }
 
             if (selectedFragment != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
-                        .commit();
+                loadFragment(selectedFragment);
+                return true;
             }
-            return true;
+            return false;
         });
     }
 
-    // --- HÀM QUAN TRỌNG ĐANG BỊ THIẾU ---
-    public void navigateToHomeWithOrder(Order order) {
-        // 1. Chuyển Tab menu về Home
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_home);
-
-        // 2. Tạo HomeFragment mới
-        HomeFragment homeFragment = new HomeFragment();
-
-        // 3. Gửi dữ liệu đơn hàng sang
-        homeFragment.setTargetOrder(order);
-
-        // 4. Hiển thị HomeFragment
+    private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
+                .replace(R.id.fragment_container, fragment) // ID của FrameLayout trong activity_main.xml
                 .commit();
+    }
+
+    // Bạn có thể giữ lại hàm này nếu cần
+    public void receiveOrder(Order order) {
+        // Comment lại để tránh lỗi nếu chưa dùng HomeFragment
+        // homeFragment.setTargetOrder(order);
     }
 }

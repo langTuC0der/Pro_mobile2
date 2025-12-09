@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_user_all"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Tất cả đơn" />
+
+    <item
+        android:id="@+id/nav_user_confirmed"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Đã xác nhận" />
+
+    <item
+        android:id="@+id/nav_user_cancelled"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Đã hủy" />
+
+    <item
+        android:id="@+id/nav_user_profile"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Hồ sơ" />
+
+</menu>

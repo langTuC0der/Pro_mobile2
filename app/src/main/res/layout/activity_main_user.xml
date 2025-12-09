@@ -2,21 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
 
-    <!-- Khung chứa để hiển thị các Fragment -->
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/user_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"/>
+        android:layout_above="@id/user_bottom_navigation" />
 
-    <!-- Thanh menu dưới đáy -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/user_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
-        app:menu="@menu/driver_bottom_menu" /> <!-- Đảm bảo tên file menu của bạn là driver_bottom_menu.xml -->
+        app:menu="@menu/menu_user_bottom"
+        app:itemIconTint="#00A651"
+        app:itemTextColor="#00A651" />
+
 </RelativeLayout>

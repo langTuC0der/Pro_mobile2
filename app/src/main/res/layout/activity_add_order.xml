@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tạo Đơn Hàng Mới"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#00A651"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/edtOrderName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên hàng hóa (VD: Tài liệu, Cơm hộp...)"
+        android:padding="15dp"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAddressFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ nơi gửi"
+        android:padding="15dp"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAddressTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ nơi nhận"
+        android:padding="15dp"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- 1. THÊM Ô NHẬP QUÃNG ĐƯỜNG -->
+    <EditText
+        android:id="@+id/edtDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số quãng đường (km)"
+        android:inputType="numberDecimal"
+        android:padding="15dp"
+        android:background="@drawable/bg_input"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- 2. SỬA LẠI PHẦN GIÁ TIỀN -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giá cước dự kiến:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tvCalculatedPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 VNĐ"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#00A651"
+        android:padding="15dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+    <!-- KẾT THÚC SỬA -->
+
+    <Button
+        android:id="@+id/btnSubmitOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng Đơn Hàng"
+        android:backgroundTint="#00A651"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
+
+</LinearLayout>
