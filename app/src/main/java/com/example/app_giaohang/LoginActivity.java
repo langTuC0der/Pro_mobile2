@@ -94,6 +94,12 @@ public class LoginActivity extends AppCompatActivity {
                                 gotoMainActivity();
                             }
 
+                        }
+                        else if ("Admin".equals(role)) {
+                            // CHUYỂN SANG TRANG ADMIN
+                            Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else if ("User".equals(role)) {
                             Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
                             startActivity(intent);

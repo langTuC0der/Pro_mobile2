@@ -1,73 +1,47 @@
-package com.example.app_giaohang;import android.content.Intent;
+package com.example.app_giaohang;
+
 import android.os.Bundle;
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.example.app_giaohang.Adapters.OrderAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainUserActivity extends AppCompatActivity {
-
-    private RecyclerView rcvOrders;
-    private FloatingActionButton fabAddOrder;
-    private OrderAdapter adapter;
-    private List<Order> orderList;
-    private FirebaseFirestore db;
-    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
 
-        db = FirebaseFirestore.getInstance();
-        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        BottomNavigationView bottomNav = findViewById(R.id.user_bottom_navigation);
 
-        rcvOrders = findViewById(R.id.rcvOrders);
-        fabAddOrder = findViewById(R.id.fabAddOrder);
+        // Mặc định load tab "Tất cả đơn"
+        loadFragment(new UserOrderListFragment("Tất cả"));
 
-        // Setup RecyclerView
-        orderList = new ArrayList<>();
-        adapter = new OrderAdapter(orderList);
-        rcvOrders.setLayoutManager(new LinearLayoutManager(this));
-        rcvOrders.setAdapter(adapter);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Fragment selectedFragment = null;
 
-        // Sự kiện click nút thêm
-        fabAddOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(MainUserActivity.this, AddOrderActivity.class);
-            startActivity(intent);
+            if (id == R.id.nav_user_all) {
+                selectedFragment = new UserOrderListFragment("Tất cả");
+            } else if (id == R.id.nav_user_confirmed) {
+                selectedFragment = new UserOrderListFragment("Đã xác nhận");
+            } else if (id == R.id.nav_user_cancelled) {
+                selectedFragment = new UserOrderListFragment("Đã hủy");
+            } else if (id == R.id.nav_user_profile) {
+                selectedFragment = new UserProfileFragment();
+            }
+
+            if (selectedFragment != null) {
+                loadFragment(selectedFragment);
+                return true;
+            }
+            return false;
         });
-
-        // Lắng nghe dữ liệu realtime
-        listenDataFromFirestore();
     }
 
-    private void listenDataFromFirestore() {
-        // Chỉ lấy những đơn hàng của User hiện tại (userId == currentUserId)
-        db.collection("orders")
-                .whereEqualTo("userId", currentUserId)
-                .addSnapshotListener((value, error) -> {
-                    if (error != null) return;
-                    if (value == null) return;
-
-                    for (DocumentChange dc : value.getDocumentChanges()) {
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-                            Order order = dc.getDocument().toObject(Order.class);
-                            order.setOrderId(dc.getDocument().getId());                            orderList.add(order);
-                            adapter.notifyDataSetChanged();
-                        }
-                        // Xử lý thêm trường hợp MODIFIED (sửa) hoặc REMOVED (xóa) nếu cần
-                    }
-                });
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.user_fragment_container, fragment)
+                .commit();
     }
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:elevation="4dp"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvAdminOrderName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tên đơn hàng"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/tvAdminPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 VNĐ"
+                android:textStyle="bold"
+                android:textColor="#00A651"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAdminFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Từ: ..."
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/tvAdminTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đến: ..."
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/tvAdminStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trạng thái: Chờ xác nhận"
+            android:textStyle="italic"
+            android:layout_marginTop="5dp"
+            android:textColor="#FF9800"/>
+
+        <!-- Khu vực nút bấm hành động -->
+        <LinearLayout
+            android:id="@+id/layoutActionButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnAdminCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hủy"
+                android:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/btnAdminConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xác nhận"
+                android:backgroundTint="#00A651"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
